@@ -1,0 +1,6 @@
+experiment,best_test_acc,final_test_acc,final_train_acc,minutes
+no_aug,0.8974,0.8965,0.9987,9.0
+no_bn,0.8505,0.8505,0.8644,11.0
+no_sched,0.8983,0.8935,0.9340,11.3
+full,0.9181,0.9177,0.9640,11.2
+no_dropout,0.9179,0.9176,0.9920,11.1
