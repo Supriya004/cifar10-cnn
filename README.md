@@ -59,6 +59,20 @@ How much accuracy each one cost compared to the full model:
 
 (Graphs for the other two runs are in the repo: `no_dropout_curves.png` and `no_sched_curves.png`.)
 
+## Part 3: Confusion Matrix and Error Analysis
+
+To understand where the improved CNN makes mistakes, I generated a confusion matrix on the CIFAR-10 test set.
+
+![Confusion Matrix](confusion_matrix.png)
+
+The confusion matrix shows how predictions are distributed across all 10 classes. It helps identify which classes the model distinguishes well and which classes it tends to confuse.
+
+I also visualized some misclassified test images to examine individual prediction errors.
+
+![Misclassified Images](misclassified.png)
+
+This provides a closer look at the model's mistakes beyond the overall test accuracy.
+
 ### What I found
 
 - **Two different kinds of failure.** Removing dropout or augmentation made the model **overfit**: train accuracy shot up to 99%+ and the gap to test accuracy grew to 7-10 points. Removing batch norm or the scheduler made the model **learn worse**: train accuracy actually went down (86% and 93%) and the gap stayed small. So some tricks stop the model memorizing, and others help it learn efficiently.
@@ -96,16 +110,21 @@ python cifar10_ablation.py --no-sched
 The dataset downloads by itself the first time (about 170 MB, and the download was very slow for me). Each ablation run takes around 9-11 min on the T4. Results are added to `ablation_results.csv` after every run.
 
 ## Files
+## Files
 
 - `cifar10_cnn.py`: models, training loop, plots (baseline and improved)
 - `cifar10_ablation.py`: same model with switches to turn parts off
+- `confusion_matrix.py`: confusion matrix and misclassified image analysis
 - `ablation_results.csv`: results of the ablation runs
 - `*_curves.png`, `*_predictions.png`: graphs and sample predictions
+- `confusion_matrix.png`: confusion matrix visualization
+- `misclassified.png`: incorrectly classified test images
 
+## Next
 ## Next
 
 - [x] ablation study
-- [ ] confusion matrix
+- [x] confusion matrix and error analysis
 - [ ] proper validation split (so I'm not picking the best epoch using the test set)
 - [ ] try transfer learning with ResNet18
 - [ ] Gradio demo
