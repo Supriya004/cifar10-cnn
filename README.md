@@ -59,6 +59,14 @@ How much accuracy each one cost compared to the full model:
 
 (Graphs for the other two runs are in the repo: `no_dropout_curves.png` and `no_sched_curves.png`.)
 
+
+### What I found
+
+- **Two different kinds of failure.** Removing dropout or augmentation made the model **overfit**: train accuracy shot up to 99%+ and the gap to test accuracy grew to 7-10 points. Removing batch norm or the scheduler made the model **learn worse**: train accuracy actually went down (86% and 93%) and the gap stayed small. So some tricks stop the model memorizing, and others help it learn efficiently.
+- **Batch norm mattered most**, about 7 points. Without it the model trained much slower and hadn't caught up after 30 epochs.
+- **Augmentation and the scheduler** each cost about 2 points.
+- **Dropout barely changed test accuracy** here, but it clearly lowered train accuracy (99.2% to 96.4%) and shrank the gap. The other regularizers (augmentation, batch norm, weight decay) probably cover for it when it's removed.
+
 ## Part 3: Confusion Matrix and Error Analysis
 
 To understand where the improved CNN makes mistakes, I generated a confusion matrix on the CIFAR-10 test set.
@@ -73,12 +81,19 @@ I also visualized some misclassified test images to examine individual predictio
 
 This provides a closer look at the model's mistakes beyond the overall test accuracy.
 
-### What I found
+### What I Learned
 
-- **Two different kinds of failure.** Removing dropout or augmentation made the model **overfit**: train accuracy shot up to 99%+ and the gap to test accuracy grew to 7-10 points. Removing batch norm or the scheduler made the model **learn worse**: train accuracy actually went down (86% and 93%) and the gap stayed small. So some tricks stop the model memorizing, and others help it learn efficiently.
-- **Batch norm mattered most**, about 7 points. Without it the model trained much slower and hadn't caught up after 30 epochs.
-- **Augmentation and the scheduler** each cost about 2 points.
-- **Dropout barely changed test accuracy** here, but it clearly lowered train accuracy (99.2% to 96.4%) and shrank the gap. The other regularizers (augmentation, batch norm, weight decay) probably cover for it when it's removed.
+- **Overall accuracy doesn't tell the whole story.** Even with 92% test accuracy, the model performs differently across individual classes. Cat classification was the weakest at 82.5%, while cars achieved 96.1%.
+
+- **Similar-looking classes are harder to distinguish.** The model frequently confused dogs with cats (81 images) and cats with dogs (76 images). This suggests that some visual features overlap significantly at the low 32×32 image resolution.
+
+- **Some classes are easier to recognize.** Cars, trucks, ships and frogs achieved relatively high classification accuracy, showing that the model learned their distinguishing features more effectively.
+
+- **Visual inspection adds context to numerical results.** Looking at misclassified images helped me understand that some errors occur because of similar shapes, backgrounds and limited image detail.
+
+### Key Takeaway
+
+A model achieving high overall accuracy can still struggle with specific classes. Combining a confusion matrix with misclassified image visualization gives a more complete picture of model performance.
 
 ### Caveats
 
@@ -120,7 +135,6 @@ The dataset downloads by itself the first time (about 170 MB, and the download w
 - `confusion_matrix.png`: confusion matrix visualization
 - `misclassified.png`: incorrectly classified test images
 
-## Next
 ## Next
 
 - [x] ablation study
