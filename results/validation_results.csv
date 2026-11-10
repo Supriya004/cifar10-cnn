@@ -1,0 +1,2 @@
+model,epochs,best_epoch,best_val_acc,test_acc_at_best_val,minutes
+improved,30,30,0.9208,0.9138,9.1
