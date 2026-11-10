@@ -101,7 +101,7 @@ def plot_misclassified(dataset, labels, preds, classes,
     mean = torch.tensor(MEAN).view(3, 1, 1)
     std = torch.tensor(STD).view(3, 1, 1)
 
-    fig, axes = plt.subplots(2, 8, figsize=(16, 4.6))
+    fig, axes = plt.subplots(2, 8, figsize=(16, 6.0))
     for ax in axes.flat:
         ax.axis("off")
     for ax, idx in zip(axes.flat, wrong):
@@ -110,7 +110,7 @@ def plot_misclassified(dataset, labels, preds, classes,
         ax.set_title(f"pred: {classes[preds[idx]]}\ntrue: {classes[labels[idx]]}",
                      fontsize=8, color="red")
     fig.suptitle("Photos the improved CNN got wrong")
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.5)  # keeps row 2 titles off row 1 photos
     fig.savefig(path, dpi=130)
     plt.close(fig)
     print(f"Saved {path}")
