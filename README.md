@@ -4,8 +4,6 @@ My first deep learning project. I trained a simple CNN on CIFAR-10, watched it o
 
 CIFAR-10 is 60,000 tiny colour photos (32x32) in 10 classes: plane, car, bird, cat, deer, dog, frog, horse, ship, truck. The model has to guess what's in each photo.
 
-Live demo: coming soon (Hugging Face Spaces)
-
 ## Results
 
 | Model | Test accuracy | Train accuracy | Best epoch picked on |
@@ -141,6 +139,8 @@ python app.py
 ```
 It needs the trained weights (`transfer_full_valbest.pt`, from `python cifar10_transfer.py --mode full`). The weights are not in this repo because the file is about 45 MB.
 
+I tested it in Colab with a temporary public Gradio link. I haven't hosted it anywhere permanent.
+
 ## Caveats
 
 - **Ablation numbers were picked on the test set.** The "best test acc" column in Part 2 uses the best epoch by test accuracy, so it's a bit optimistic. The final-epoch column is cleaner (with final-epoch numbers the accuracy lost is about 0.0, 2.1, 2.4 and 6.7 points for dropout, augmentation, scheduler and batch norm).
@@ -205,6 +205,3 @@ results/               csv files with the numbers from each experiment
 - [x] proper validation split
 - [x] transfer learning with ResNet18
 - [x] Gradio demo
-- [ ] control experiment: the same ResNet18 from random weights
-- [ ] put the demo online (Hugging Face Spaces)
-- [ ] serve the model with FastAPI and Docker
